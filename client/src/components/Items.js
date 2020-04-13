@@ -14,7 +14,7 @@ class Items extends React.Component {
     const itemName = prompt('Enter name')
     const { addItem } = this.props
 
-    addItem({ name: itemName, id: 2})
+    addItem({ name: itemName })
   }
 
   handleDeleteItem = (id) => {
@@ -30,8 +30,8 @@ class Items extends React.Component {
       <div>
         <button onClick={this.handleAddItem}>Add Item</button>
         {items.map(item => (
-          <div key={item.id} className="item-container">
-            <p onClick={this.handleDeleteItem.bind(this, item.id)}>&#10005;</p>
+          <div key={item._id} className="item-container">
+            <p onClick={this.handleDeleteItem.bind(this, item._id)}>&#10005;</p>
             <h1>{item.name}</h1>
           </div>
         ))}
