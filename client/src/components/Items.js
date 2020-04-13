@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import { getItems } from '../actions/ItemActions'
+import { getItems, deleteItem, addItem } from '../actions/ItemActions'
 import PropTypes from 'prop-types';
 
 import './items.css'
@@ -12,18 +12,15 @@ class Items extends React.Component {
 
   handleAddItem = () => {
     const itemName = prompt('Enter name')
-    const { items } = this.state
+    const { addItem } = this.props
 
-    items.push({ name: itemName, id: 2 })
-
-    this.setState({ items })
+    addItem({ name: itemName, id: 2})
   }
 
-  handleRemoveItem = (id) => {
-    const { items } = this.props
-    const filteredItems = items.filter(item => item.id !== id)
+  handleDeleteItem = (id) => {
+    const { deleteItem } = this.props
 
-    this.setState({ items: filteredItems })
+    deleteItem(id)
   }
 
   render() {
@@ -34,7 +31,7 @@ class Items extends React.Component {
         <button onClick={this.handleAddItem}>Add Item</button>
         {items.map(item => (
           <div key={item.id} className="item-container">
-            <p onClick={() => this.handleRemoveItem(item.id)}>&#10005;</p>
+            <p onClick={this.handleDeleteItem.bind(this, item.id)}>&#10005;</p>
             <h1>{item.name}</h1>
           </div>
         ))}
@@ -52,4 +49,7 @@ const mapStateToProps = (state) => ({
   items: state.items.items
 })
 
-export default connect(mapStateToProps, { getItems })(Items)
+export default connect(
+  mapStateToProps,
+  { getItems, deleteItem, addItem }
+)(Items)
