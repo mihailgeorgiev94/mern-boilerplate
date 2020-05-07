@@ -1,5 +1,6 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const auth = require('../../middleware/auth')
 
 const Item = require('../../models/Item')
 
@@ -11,7 +12,7 @@ router.get('/', (req, res) => {
     .then(items => res.json(items))
 })
 
-router.post('/', (req, res) => {
+router.post('/', auth, (req, res) => {
   const newItem = new Item({ name: req.body.name })
 
   newItem.save()
@@ -19,7 +20,7 @@ router.post('/', (req, res) => {
     .catch(err => { throw err })
 })
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', auth, (req, res) => {
   Item.findByIdAndRemove(req.params.id)
     .then(() => res.json({ success: true }))
     .catch((err) => {
