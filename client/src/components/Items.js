@@ -1,7 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import { getItems, deleteItem, addItem } from '../actions/ItemActions'
 import PropTypes from 'prop-types';
+
+import { getItems, deleteItem, addItem } from '../actions/ItemActions';
+import { isAuthenticated } from '../helpers';
 
 import './items.css'
 
@@ -23,19 +25,37 @@ class Items extends React.Component {
     deleteItem(id)
   }
 
+  handleSubmit = (event) => {
+    // event.target.value
+  }
+
+  renderItem = (item) => (
+    <div key={item._id} className="item-container">
+      <p onClick={this.handleDeleteItem.bind(this, item._id)}>&#10005;</p>
+      <h1>{item.name}</h1>
+    </div>
+  )
+
   render() {
     const { items } = this.props;
 
     return (
-      <div>
-        <button onClick={this.handleAddItem}>Add Item</button>
-        {items.map(item => (
-          <div key={item._id} className="item-container">
-            <p onClick={this.handleDeleteItem.bind(this, item._id)}>&#10005;</p>
-            <h1>{item.name}</h1>
-          </div>
-        ))}
-      </div>
+      <>
+        {isAuthenticated() ? (
+          <>
+            <button onClick={this.handleAddItem}>Add Item</button>
+            {items.map(item => this.renderItem(item))}
+          </>
+        ) : (
+          <form onSubmit={this.handleSubmit}>
+            <label>
+              Name:
+              <input type="text" name="name" />
+            </label>
+            <input type="submit" value="Submit" />
+          </form>
+        )}
+      </>
     )
   }
 }
