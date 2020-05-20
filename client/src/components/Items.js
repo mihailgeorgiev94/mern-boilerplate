@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 
-import { getItems, deleteItem, addItem } from '../actions/ItemActions';
-import { isAuthenticated } from '../helpers';
+import { getItems, deleteItem, addItem, register, login } from '../actions/ItemActions';
+import { getToken } from '../helpers';
 
 import './items.css'
 
@@ -25,8 +25,27 @@ class Items extends React.Component {
     deleteItem(id)
   }
 
-  handleSubmit = (event) => {
-    // event.target.value
+  handleRegister = (event) => {
+    const { register } = this.props
+    event.preventDefault()
+
+    register({
+      name: event.target.name.value,
+      email: event.target.email.value,
+      password: event.target.password.value
+    })
+  }
+
+  handleLogin = (event) => {
+    const { login } = this.props
+
+    // forms reset on submit, so we prevent it
+    event.preventDefault()
+
+    login({
+      email: event.target.email.value,
+      password: event.target.password.value
+    })
   }
 
   renderItem = (item) => (
@@ -36,24 +55,44 @@ class Items extends React.Component {
     </div>
   )
 
+  renderForm = (submitBtn) => (
+    <>
+      <label>
+        Email:
+        <input type="text" name="email" />
+      </label>
+      <label>
+        Password:
+        <input type="password" name="password" />
+      </label>
+      <input type="submit" value={submitBtn} />
+    </>
+  )
+
+  // add separate component for register
   render() {
     const { items } = this.props;
 
     return (
       <>
-        {isAuthenticated() ? (
+        {getToken() ? (
           <>
             <button onClick={this.handleAddItem}>Add Item</button>
             {items.map(item => this.renderItem(item))}
           </>
         ) : (
-          <form onSubmit={this.handleSubmit}>
-            <label>
-              Name:
-              <input type="text" name="name" />
-            </label>
-            <input type="submit" value="Submit" />
-          </form>
+          <>
+            <form onSubmit={this.handleLogin}>
+              {this.renderForm('Login')}
+            </form>
+            <form onSubmit={this.handleRegister}>
+              <label>
+                Name:
+                <input type="name" name="name" />
+              </label>
+              {this.renderForm('Register')}
+            </form>
+          </>
         )}
       </>
     )
@@ -71,5 +110,5 @@ const mapStateToProps = (state) => ({
 
 export default connect(
   mapStateToProps,
-  { getItems, deleteItem, addItem }
+  { getItems, deleteItem, addItem, register, login }
 )(Items)

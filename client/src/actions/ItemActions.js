@@ -1,21 +1,35 @@
-import axios from 'axios'
-import { GET_ITEMS, ADD_ITEM, DELETE_ITEM, ITEMS_LOADING } from '../actions/types'
+import { GET_ITEMS, ADD_ITEM, DELETE_ITEM, SET_USER } from '../actions/types'
+import { setToken, client } from '../helpers'
 
 export const getItems = () => dispatch => {
-  dispatch(setItemsLoading())
-  axios.get('/api/items').then(res => dispatch({ type: GET_ITEMS, payload: res.data }))
+  client('/items').then(res => dispatch({ type: GET_ITEMS, payload: res }))
 }
 
 export const deleteItem = id => dispatch => {
-  axios.delete(`api/items/${id}`).then(res => dispatch({ type: DELETE_ITEM, payload: id}))
+  client(`/items/${id}`).then(res => dispatch({ type: DELETE_ITEM, payload: id}))
 }
 
 export const addItem = item => dispatch => {
-  axios.post('/api/items', item).then(res => dispatch({ type: ADD_ITEM, payload: res.data }))
+  client('/items', { body: item }).then(res => dispatch({ type: ADD_ITEM, payload: res }))
 }
 
-export const setItemsLoading = () => {
+export const login = data => dispatch => {
+  client('/auth', { body: data }).then(res => {
+    setToken(res.token)
+    dispatch(setUser(res.user))
+  })
+}
+
+export const register = data => dispatch => {
+  client('/users', { body: data }).then(res => {
+    setToken(res.data.token)
+    dispatch(setUser(res.token))
+  })
+}
+
+export const setUser = (user) => {
   return {
-    type: ITEMS_LOADING
+    type: SET_USER,
+    payload: user
   }
 }

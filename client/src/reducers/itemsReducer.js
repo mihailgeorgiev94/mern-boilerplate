@@ -1,17 +1,22 @@
-import { GET_ITEMS, ADD_ITEM, DELETE_ITEM, ITEMS_LOADING } from '../actions/types'
+import { GET_ITEMS, ADD_ITEM, DELETE_ITEM, SET_USER } from '../actions/types'
 
+// TODO: move user to own reducer
 const initialState = {
   items: [],
-  loading: false
+  user: null
 }
 
 export default (state = initialState, action) => {
   switch(action.type) {
+  case SET_USER:
+    return {
+      ...state,
+      user: action.payload
+    }
   case GET_ITEMS:
     return {
       ...state,
-      items: action.payload,
-      loading: false
+      items: action.payload
     }
   case DELETE_ITEM:
     return {
@@ -22,11 +27,6 @@ export default (state = initialState, action) => {
     return {
       ...state,
       items: [action.payload, ...state.items]
-    }
-  case ITEMS_LOADING:
-    return {
-      ...state,
-      loading: true
     }
   default:
     return state;

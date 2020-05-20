@@ -2,7 +2,7 @@ const config = require('config')
 const jwt = require('jsonwebtoken')
 
 function auth (req, res, next) {
-  const token = req.header('x-auth-token');
+  const token = req.header('Authorization');
 
   if(!token) return res.status(401).json({ msg: 'No JWT, authorization denied' });
 
@@ -13,7 +13,6 @@ function auth (req, res, next) {
   } catch(e) {
     res.status(400).json({ msg: 'invalid JWT' })
   }
-
 }
 
 module.exports = auth
