@@ -37,8 +37,10 @@ export const client = (endpoint, {body, ...customConfig} = {}) => {
     .then(async response => {
       if (response.status === 401) {
         logout()
-        window.location.assign(window.location)
-        return
+
+        // handle special cases here
+        const data = await response.json()
+        return Promise.reject(data)
       }
       const data = await response.json()
       if (response.ok) {

@@ -1,18 +1,11 @@
-import { GET_ITEMS, ADD_ITEM, DELETE_ITEM, SET_USER } from '../actions/types'
+import { GET_ITEMS, ADD_ITEM, DELETE_ITEM } from '../actions/types'
 
-// TODO: move user to own reducer
 const initialState = {
   items: [],
-  user: null
 }
 
 export default (state = initialState, action) => {
   switch(action.type) {
-  case SET_USER:
-    return {
-      ...state,
-      user: action.payload
-    }
   case GET_ITEMS:
     return {
       ...state,

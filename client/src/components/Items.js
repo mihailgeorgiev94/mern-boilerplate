@@ -2,14 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 
-import { getItems, deleteItem, addItem, register, login } from '../actions/ItemActions';
+import { getItems, deleteItem, addItem } from '../actions/ItemActions';
+import { register, login } from '../actions/UserActions';
 import { getToken } from '../helpers';
 
 import './items.css'
 
 class Items extends React.Component {
   componentDidMount() {
-    this.props.getItems();
+    const { getItems } = this.props;
+    getItems();
   }
 
   handleAddItem = () => {
@@ -29,6 +31,7 @@ class Items extends React.Component {
     const { register } = this.props
     event.preventDefault()
 
+    // you can fetch items on register
     register({
       name: event.target.name.value,
       email: event.target.email.value,
@@ -42,6 +45,7 @@ class Items extends React.Component {
     // forms reset on submit, so we prevent it
     event.preventDefault()
 
+    // you can fetch items on login
     login({
       email: event.target.email.value,
       password: event.target.password.value

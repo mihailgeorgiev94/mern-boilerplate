@@ -9,4 +9,3 @@ GraphQL/Relay
 Portals
 Hooks
 Tests
-Font Awesome

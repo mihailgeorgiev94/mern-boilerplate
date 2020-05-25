@@ -6,7 +6,7 @@ const Item = require('../../models/Item')
 
 const router = express.Router()
 
-router.get('/', (req, res) => {
+router.get('/', auth, (req, res) => {
   Item.find()
     .sort({ date: -1 })
     .then(items => res.json(items))
