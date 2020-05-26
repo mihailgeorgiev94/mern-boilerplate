@@ -1,7 +1,8 @@
 import { SET_USER } from '../actions/types'
 
 const initialState = {
-  user: null
+  user: null,
+  authenticated: false
 }
 
 export default (state = initialState, action) => {
@@ -9,7 +10,8 @@ export default (state = initialState, action) => {
   case SET_USER:
     return {
       ...state,
-      user: action.payload
+      user: action.payload,
+      authenticated: true
     }
   default:
     return state;
