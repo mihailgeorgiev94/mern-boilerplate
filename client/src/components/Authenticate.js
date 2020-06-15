@@ -1,50 +1,45 @@
-import React from 'react';
-import { connect } from 'react-redux'
+import React, { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { register, login } from '../actions/UserActions';
 
-class Authenticate extends React.Component {
-  handleRegister = (event) => {
-    const { register } = this.props
+export const Authenticate = () => {
+  const dispatch = useDispatch()
+
+  const handleRegister = useCallback((event) => {
     event.preventDefault()
 
-    // you can fetch items on register
-    register({
+    dispatch(register({
       name: event.target.name.value,
       email: event.target.email.value,
       password: event.target.password.value
-    })
-  }
+    }))
+  }, [dispatch])
 
-  handleLogin = (event) => {
-    const { login } = this.props
-
+  const handleLogin = useCallback((event) => {
     // forms reset on submit, so we prevent it
     event.preventDefault()
 
-    // you can fetch items on login
-    login({
+    dispatch(login({
       email: event.target.email.value,
       password: event.target.password.value
-    })
-  }
+    }))
+  }, [dispatch])
 
-  render() {
-    return (
-      <>
-        <form onSubmit={this.handleLogin}>
-          {renderForm('Login')}
-        </form>
-        <form onSubmit={this.handleRegister}>
-          <label>
-            Name:
-            <input type="name" name="name" />
-          </label>
-          {renderForm('Register')}
-        </form>
-      </>
-    )
-  }
+  return (
+    <>
+      <form onSubmit={handleLogin}>
+        {renderForm('Login')}
+      </form>
+      <form onSubmit={handleRegister}>
+        <label>
+          Name:
+          <input type="name" name="name" />
+        </label>
+        {renderForm('Register')}
+      </form>
+    </>
+  )
 }
 
 const renderForm = (submitBtn) => (
@@ -60,10 +55,3 @@ const renderForm = (submitBtn) => (
     <input type="submit" value={submitBtn} />
   </>
 )
-
-const connectedAuthenticate = connect(
-  null,
-  { register, login }
-)(Authenticate)
-
-export { connectedAuthenticate as Authenticate }

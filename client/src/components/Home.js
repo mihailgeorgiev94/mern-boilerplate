@@ -1,28 +1,14 @@
 import React from 'react';
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 
-import { getToken } from '../helpers';
 import { Items, Authenticate } from './';
 
-class Home extends React.Component {
-  render() {
-    const { authenticated } = this.props
+export const Home = () =>  {
+  const { authenticated } = useSelector(state => state.users )
 
-    return (
-      <>
-        {authenticated ? <Items/> : <Authenticate/>}
-      </>
-    )
-  }
+  return (
+    <>
+      {authenticated ? <Items/> : <Authenticate/>}
+    </>
+  )
 }
-
-const mapStateToProps = (state) => ({
-  authenticated: state.users.authenticated
-})
-
-const connectedHome = connect(
-  mapStateToProps,
-  null
-)(Home)
-
-export { connectedHome as Home }

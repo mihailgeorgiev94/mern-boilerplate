@@ -10,7 +10,7 @@ export const login = data => dispatch => {
 
 export const register = data => dispatch => {
   client('/users', { body: data }).then(res => {
-    setToken(res.data.token)
+    setToken(res.token)
     dispatch(setUser(res.token))
   })
 }
