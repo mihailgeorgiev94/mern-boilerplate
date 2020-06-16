@@ -6,7 +6,7 @@ export const getItems = () => dispatch => {
 }
 
 export const deleteItem = id => dispatch => {
-  client(`/items/${id}`).then(res => dispatch({ type: DELETE_ITEM, payload: id}))
+  client(`/items/${id}`, { method: 'DELETE' }).then(res => dispatch({ type: DELETE_ITEM, payload: id}))
 }
 
 export const addItem = item => dispatch => {
