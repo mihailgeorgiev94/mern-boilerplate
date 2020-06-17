@@ -14,7 +14,7 @@ export const Home = () =>  {
 
   return (
     <>
-      {authenticated ? <Items/> : <Authenticate/>}
+      {authenticated !== null ? authenticated ? <Items/> : <Authenticate/> : null}
     </>
   )
 }
