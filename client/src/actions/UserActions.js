@@ -15,6 +15,12 @@ export const register = data => dispatch => {
   })
 }
 
+export const getUser = () => dispatch => {
+  client('/auth/user').then(res => {
+    dispatch(setUser(res))
+  })
+}
+
 export const setUser = (user) => {
   return {
     type: SET_USER,

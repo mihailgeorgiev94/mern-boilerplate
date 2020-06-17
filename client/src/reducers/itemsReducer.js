@@ -4,7 +4,7 @@ const initialState = {
   items: [],
 }
 
-export default (state = initialState, action) => {
+export const itemsReducer = (state = initialState, action) => {
   switch(action.type) {
   case GET_ITEMS:
     return {

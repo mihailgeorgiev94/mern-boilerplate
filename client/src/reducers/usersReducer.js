@@ -2,10 +2,10 @@ import { SET_USER } from '../actions/types'
 
 const initialState = {
   user: null,
-  authenticated: false
+  authenticated: null
 }
 
-export default (state = initialState, action) => {
+export const usersReducer = (state = initialState, action) => {
   switch(action.type) {
   case SET_USER:
     return {
