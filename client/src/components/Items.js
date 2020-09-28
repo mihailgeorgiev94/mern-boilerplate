@@ -5,9 +5,14 @@ import { getItems, deleteItem, addItem } from '../actions/ItemActions';
 
 import './items.css'
 
+const arr= [    ];
+
+const hey = "asdsad";
+arr.push(hey);;;
+
 export const Items = () => {
   const dispatch = useDispatch();
-  const { items } = useSelector(state => state.items);
+  const { items } = useSelector((state) => state.items)
 
   useEffect(() => {
     dispatch(getItems());
@@ -18,7 +23,6 @@ export const Items = () => {
 
     dispatch(addItem({ name: itemName }))
   }, [dispatch])
-
 
   return (
     <>
